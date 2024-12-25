@@ -147,8 +147,315 @@ System.out.println("EXCEPTION! " + e.getMessage());
 
 ---
 
-Якщо хочете, можемо перейти до розбору **Завдання 2** або ще детальніше заглибитись у будь-який із пунктів цього коду!
+
 2. printResults(1e-6):
 Точність більша, ніж у попередньому випадку. Цикл виконає більше ітерацій, щоб досягти точності.
 3. printResults(-0.001):
 Викидається виняток IllegalArgumentException, оскільки epsilon <= 0.
+
+### Завдання 2: Код
+```java
+package lab03;
+```
+- **package lab03;**  
+  Як і в Завданні 1, цей клас належить до пакету `lab03`.
+
+```java
+public class Task2 {
+```
+- **public class Task2**  
+  Оголошується клас `Task2`.  
+
+---
+
+### Головний метод
+```java
+public static void main(String[] args) {
+```
+- **public static void main(String[] args)**  
+  Метод головної програми, що запускає виконання. Як і в першому завданні, це точка входу.  
+
+---
+
+### Виклики методу printResults
+```java
+printResults(3);
+printResults(2);
+printResults(1); // Некоректний t
+```
+- **printResults(t)**  
+  Викликається метод `printResults`, що передає значення параметра `t`:
+  1. `3` — коректне значення.
+  2. `2` — коректне значення.
+  3. `1` — некоректне значення, оскільки обмеження для `t` визначено в методі `calculateFunction`.
+
+---
+
+### Документація методу
+```java
+/**
+* Обчислює значення функції x(t, I).
+*
+* @param t параметр t
+* @return значення функції x(t, I)
+* @throws IllegalArgumentException якщо t < 1
+*/
+```
+- Це Javadoc-документація, яка пояснює метод `calculateFunction`.  
+  - `@param t`: пояснює, що `t` — це вхідний параметр.  
+  - `@return`: метод повертає результат обчислення функції.  
+  - `@throws IllegalArgumentException`: якщо `t` менше 1, буде викинуто виняток.
+
+---
+
+### Метод обчислення функції
+```java
+public static double calculateFunction(int t) {
+```
+- **public static double calculateFunction(int t)**  
+  Метод для обчислення функції `x(t, I)`.
+
+---
+
+#### Умова перевірки
+```java
+if (t < 1) {
+throw new IllegalArgumentException("Invalid t = " + t + ". Must be t >= 1.");
+}
+```
+- Перевіряється, чи значення `t` є меншим за 1. Якщо це так, викидається виняток `IllegalArgumentException`.
+
+---
+
+#### Ініціалізація змінної
+```java
+double sum = 0;
+```
+- **double sum = 0;**  
+  Змінна для збереження накопиченої суми.
+
+---
+
+#### Цикл обчислення
+```java
+for (int i = 1; i <= t; i++) {
+double sqrtPart1 = Math.sqrt(i * 3.5);
+double sqrtPart2 = Math.sqrt(i * 2);
+sum += sqrtPart1 + sqrtPart2;
+}
+```
+- **for (int i = 1; i <= t; i++)**  
+  Цикл ітерується від `i = 1` до `i = t`. На кожній ітерації:
+  - `Math.sqrt(i * 3.5)`: обчислюється квадратний корінь з добутку `i` і `3.5`.  
+  - `Math.sqrt(i * 2)`: обчислюється квадратний корінь з добутку `i` і `2`.  
+  - Обидва значення додаються до змінної `sum`.
+
+---
+
+#### Повернення результату
+```java
+return sum;
+```
+- Повертається підсумкове значення `sum`.
+
+---
+
+### Метод друку результатів
+```java
+static void printResults(int t) {
+System.out.print("t:" + t + " result: ");
+try {
+System.out.println(calculateFunction(t));
+} catch (IllegalArgumentException e) {
+System.out.println("EXCEPTION! " + e.getMessage());
+}
+}
+```
+- **printResults(int t)**  
+  Метод виводить результат обчислення функції або помилку.  
+  - `System.out.print`: виводить значення `t` і текст `result:`.  
+  - Викликається метод `calculateFunction(t)`.  
+  - Якщо параметр `t` некоректний, помилка обробляється в `catch` і виводиться повідомлення про виняток.
+
+---
+
+### Приклад виконання:
+1. `printResults(3)`:
+   - Розраховує значення функції для `t = 3`.  
+   - Повертає суму для трьох ітерацій циклу.  
+
+2. `printResults(2)`:
+   - Розраховує значення функції для `t = 2`.
+
+3. `printResults(1)`:
+   - Викидає виняток `IllegalArgumentException`, оскільки `t < 1`.
+
+---
+
+### Завдання 3: Код
+```java
+package lab03;
+```
+- **package lab03;**  
+  Як і у попередніх завданнях, це оголошення пакету `lab03`, у якому знаходиться клас `Task2`.
+
+---
+
+### Головний метод
+```java
+public static void main(String[] args) {
+printResults(0.001);
+printResults(0.0001);
+printResults(1e-6);
+printResults(-0.001); // Некоректне значення
+}
+```
+- **public static void main(String[] args)**  
+  Головний метод програми.  
+  - Викликає `printResults` із різними значеннями `epsilon`.  
+  - Коментар `// Некоректне значення` вказує, що при `epsilon = -0.001` буде помилка.
+
+---
+
+### Документація методу
+```java
+/**
+* Обчислення суми з точністю ε.
+* @param epsilon точність (ε > 0).
+* @return результат обчислення суми.
+* @throws IllegalArgumentException якщо epsilon <= 0.
+*/
+```
+- **/**  
+  Це блок коментарів, який документує метод `computeSum`.  
+  - `@param epsilon`: пояснює, що `epsilon` — це точність.  
+  - `@return`: метод повертає суму, обчислену з заданою точністю.  
+  - `@throws IllegalArgumentException`: викидається помилка, якщо `epsilon <= 0`.
+
+---
+
+### Метод для обчислення суми
+```java
+public static double computeSum(double epsilon) {
+```
+- **public static double computeSum(double epsilon)**  
+  Метод для обчислення суми ряду з заданою точністю `epsilon`.  
+  - `double`: результат повертається як число з плаваючою комою.
+
+---
+
+#### Умова перевірки
+```java
+if (epsilon <= 0) {
+throw new IllegalArgumentException("Точність ε повинна бути більше 0: ε = " + epsilon);
+}
+```
+- Перевіряється, чи значення `epsilon` менше або дорівнює 0. Якщо це так, викидається виняток `IllegalArgumentException` із повідомленням, що точність має бути додатною.
+
+---
+
+#### Ініціалізація змінних
+```java
+double sum = 0.0;
+int i = 0;
+double term;
+```
+- **double sum = 0.0;**  
+  Змінна для накопичення суми.  
+- **int i = 0;**  
+  Змінна-лічильник для циклу.  
+- **double term;**  
+  Змінна для збереження значення поточного доданка.
+
+---
+
+#### Цикл обчислення
+```java
+do {
+term = Math.pow(-2, i) / (factorial(i) * (i + 1));
+sum += term;
+i++;
+} while (Math.abs(term) >= epsilon);
+```
+- **do { ... } while (...);**  
+  Цикл `do-while` обчислює доданки ряду, доки абсолютне значення поточного доданка `Math.abs(term)` більше або дорівнює точності `epsilon`.
+
+---
+
+##### Обчислення доданка
+```java
+term = Math.pow(-2, i) / (factorial(i) * (i + 1));
+```
+- `Math.pow(-2, i)`: підносить `-2` до степеня `i`.  
+- `factorial(i)`: обчислює факторіал `i`.  
+- `(i + 1)`: додається 1 до `i` у знаменнику.  
+
+Доданок додається до `sum`.
+
+---
+
+#### Умова виходу з циклу
+```java
+while (Math.abs(term) >= epsilon);
+```
+- Цикл завершується, коли абсолютне значення поточного доданка `term` стане меншим за точність `epsilon`.
+
+---
+
+#### Повернення результату
+```java
+return sum;
+```
+- Повертається значення суми `sum`, обчисленої з точністю `epsilon`.
+
+---
+
+### Метод для обчислення факторіалу
+```java
+private static double factorial(int n) {
+double fact = 1.0;
+for (int i = 1; i <= n; i++) {
+fact *= i;
+}
+return fact;
+}
+```
+- **private static double factorial(int n)**  
+  Метод для обчислення факторіала числа `n` (`n!`).  
+  - Ініціалізується змінна `fact = 1.0`.  
+  - Цикл `for` обчислює добуток усіх чисел від `1` до `n`.  
+  - Результат повертається як `fact`.
+
+---
+
+### Метод для друку результатів
+```java
+static void printResults(double epsilon) {
+System.out.print("ε: " + epsilon + " result: ");
+try {
+System.out.println(computeSum(epsilon));
+} catch (IllegalArgumentException e) {
+System.out.println("EXCEPTION! " + e.getMessage());
+}
+}
+```
+- **printResults(double epsilon)**  
+  Метод друкує результат або повідомлення про помилку.  
+  - Викликається `computeSum(epsilon)`.  
+  - Якщо значення `epsilon` некоректне, помилка обробляється у блоці `catch`.
+
+---
+
+### Приклад виконання:
+#### 1. `printResults(0.001)`:
+- Цикл обчислює доданки, доки їх значення >= 0.001.  
+- Сума повертається й друкується.
+
+#### 2. `printResults(1e-6)`:
+- Точність більша, ніж у попередньому випадку. Цикл виконає більше ітерацій, щоб досягти точності.
+
+#### 3. `printResults(-0.001)`:
+- Викидається виняток `IllegalArgumentException`, оскільки `epsilon <= 0`.
+
+---
+
